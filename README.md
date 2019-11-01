@@ -5,8 +5,8 @@ Simple DataSource implementation and DataSource wrapper with log capabilities.
 
 ## DriverManagerDataSource
 
-DataSource implementation which creates connection using DriverManager class. 
-It makes no pooling. Creates new Connections instance each time when getConnection 
+DataSource implementation which creates connections using DriverManager class. 
+It makes no pooling. Creates new Connection instance each time when getConnection 
 is called.
 
 It is usefull for testing jdbc code which uses DataSource instance independently of
