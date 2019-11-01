@@ -22,7 +22,7 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import sk.antons.jdbc.log.LogConfig;
-import sk.antons.jdbc.log.invocation.JdbcWrapper;
+import sk.antons.jdbc.log.JdbcWrapper;
 
 /**
  * Simple wrapper for DataSource instancies. It provides 
