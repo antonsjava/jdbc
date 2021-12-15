@@ -77,9 +77,9 @@ jdbc [10][8] resultset row count: 2 first row time: 0 all row time: 2 close time
 
 ```
    <dependency>
-      <groupId>com.github.antonsjava</groupId>
+      <groupId>io.github.antonsjava</groupId>
       <artifactId>jdbc</artifactId>
-      <version>1.0</version>
+      <version>LASTVERSION</version>
    </dependency>
 ```
 
