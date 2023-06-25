@@ -72,6 +72,54 @@ result set with connection identity 10 and statement identity 8
 jdbc [10][8] resultset row count: 2 first row time: 0 all row time: 2 close time: 0
 ```
 
+### utilities
+
+Db wraps Connection, Statement ResultSet to one holder objects. You don't neet to hold 
+them in separate variables and correctly close them. Db holds last this objects and 
+closses previous if newone is created. And Db.close() closses all currently opend 
+objects in order ResultSet, Statement, PreparedStatement and Connection. 
+
+```
+try (Db db = Db.instance(ds)) {a
+    db.executeQuery("select count(*) from ra_county");
+    if(db.rs().next()) System.out.println("county count: " + db.rs().getInt(1));
+    
+    db.executeQuery("select count(*) from ra_street");
+    if(db.rs().next()) System.out.println("street count: " + db.rs().getInt(1));
+    
+    db.prepareStatement("update ra_street set name = ? where is = ?");
+    db.ps().setString(1, "new name");
+    db.ps().setLong(2, 12321);
+    db.executeUpdate();
+
+	db.conn().commit();
+} catch(Exception e) {
+}
+```
+
+If you have script file and you wants to execute this. 
+
+```
+private static String SCHEMA =
+    """
+    create table ra_region (id bigint primary key, code varchar(50), name varchar(5000));
+    create index ra_region ON ra_region (code) ; -- just comment
+    
+	create table ra_county (id bigint primary key, code varchar(50), name varchar(5000));
+    create table ra_street (id bigint primary key, code varchar(50), name varchar(5000));
+	"""
+
+   try (Db db = Db.instance(ds)) {
+       Script.instance(SCHEMA).execute(db.conn());
+       
+	   Script.instance(new FileReader("/tmp/init-db.sql"))
+                    .commitAfter(100)
+                    .execute(db.conn());
+   } catch(Exception ee) {
+   }
+```
+
+
 
 ## Maven usage
 
