@@ -30,7 +30,7 @@ import java.util.stream.StreamSupport;
 /**
  * Sql script parser. Split script to individual statements.
  *
- * Statements are separated by ';'. And single line comments 
+ * Statements are separated by ';'. And single line comments
  * started by '--' are ignored.
  *
  * @author antons
@@ -40,7 +40,6 @@ public class Script {
 
     public Script(Reader reader) {
         this.reader = reader;
-        readOne();
         readOne();
         readOne();
     }
@@ -152,7 +151,7 @@ public class Script {
             System.out.println(" --------\n"+stm);
             stm = s.next();
         }
-        s = Script.instance(new FileReader("/home/antons/sic.sql"));
+        s = Script.instance(new FileReader("/tmp/init2.sql"));
         s.stream().forEach(m -> System.out.println("--------\n"+m));
 
     }
