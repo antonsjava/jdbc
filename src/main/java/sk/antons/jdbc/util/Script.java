@@ -41,7 +41,6 @@ public class Script {
     public Script(Reader reader) {
         this.reader = reader;
         readOne();
-        readOne();
     }
     public static Script instance(Reader reader) { return new Script(reader); }
     public static Script instance(String script) { return new Script(new StringReader(script)); }
