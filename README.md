@@ -3,7 +3,8 @@
 
 Simple DataSource implementation and DataSource wrapper with log capabilities. 
 
-[Example of usage] (https://github.com/antonsjava/sb-sampler/blob/main/src/main/java/sk/antons/sbsampler/repo/BookRepo.java)
+[Example of usage](https://github.com/antonsjava/sb-sampler/blob/main/src/main/java/sk/antons/sbsampler/repo/BookRepo.java)
+
 
 ## DriverManagerDataSource
 
