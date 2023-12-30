@@ -3,6 +3,8 @@
 
 Simple DataSource implementation and DataSource wrapper with log capabilities. 
 
+[Example of usage] (https://github.com/antonsjava/sb-sampler/blob/main/src/main/java/sk/antons/sbsampler/repo/BookRepo.java)
+
 ## DriverManagerDataSource
 
 DataSource implementation which creates connections using DriverManager class. 
@@ -78,6 +80,7 @@ Db wraps Connection, Statement ResultSet to one holder objects. You don't neet t
 them in separate variables and correctly close them. Db holds last this objects and 
 closses previous if newone is created. And Db.close() closses all currently opend 
 objects in order ResultSet, Statement, PreparedStatement and Connection. 
+(Only one statement and resultset in time is handled by the wrapper)
 
 ```
 try (Db db = Db.instance(ds)) {a
