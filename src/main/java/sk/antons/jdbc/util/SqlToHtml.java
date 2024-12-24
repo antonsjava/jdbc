@@ -126,7 +126,7 @@ public class SqlToHtml {
                             row.put(name, value);
 
 						}
-                    if((header != null) && (!header.isEmpty())) {
+                    if((fields != null) && (!fields.isEmpty())) {
                         for(String field : fields) {
                             String value = field;
                             if(field != null) {
