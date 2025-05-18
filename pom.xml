@@ -4,7 +4,7 @@
 
     <groupId>io.github.antonsjava</groupId>
     <artifactId>jdbc</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
 
     <name>jdbc</name>
     <description>simple jdbc classes implementation</description>

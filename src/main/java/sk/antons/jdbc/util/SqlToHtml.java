@@ -52,9 +52,12 @@ public class SqlToHtml {
     public static SqlToHtml instance(Connection conn) { return new SqlToHtml(conn); }
 
     public SqlToHtml sql(String value) { this.sql = value; return this; }
+    public String sql() { return this.sql; }
     public Column addColumn(String value) { Column col = Column.instance(this).header(value); this.columns.add(col); return col; }
     public SqlToHtml page(int value) { this.page = value; return this; }
+    public int page() { return this.page; }
     public SqlToHtml pagelen(int value) { this.pagelen = value; return this; }
+    public int pagelen() { return this.pagelen; }
     public SqlToHtml rowStyleResolver(Function<Row, String> value) { this.rowStyleResolver = value; return this; }
     public SqlToHtml rowClassResolver(Function<Row, String> value) { this.rowClassResolver = value; return this; }
     private SimpleDateFormat dateFormatter() {
