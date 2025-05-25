@@ -157,6 +157,96 @@ public class SqlToHtml {
         return table;
     }
 
+
+    public Table buildPairs() {
+        Table table = new Table();
+        //log.debug("sql2html {}, page: {} pagelen: {}", sql, page, pagelen);
+        if(sql == null) {
+            table.error = "no sql";
+            return table;
+        }
+        sql = clearSql(sql);
+        if(pagelen < 1) page = 0;
+
+		if(sql.toLowerCase().trim().startsWith("select")) {
+            sb.append("<table class=\"sqlreport\">\n");
+			ResultSet rs = null;
+			Statement stmt = null;
+			try {
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				ResultSetMetaData md = rs.getMetaData();
+				int columnCount = md.getColumnCount();
+                if(columns.isEmpty()) {
+                    for(int i = 0; i < columnCount; i++) {
+                        String label = md.getColumnLabel(i+1);
+                        final int rownum = i;
+                        if(label == null) label = "";
+                        columns.add(Column.instance(this)
+                            .header(label)
+                            .valueResolver(row -> row.column(rownum))
+                        );
+                    }
+                }
+
+                boolean paggig = (page > -1) && (pagelen > 0);
+                int startindex = page * pagelen;
+                int endindex = startindex + pagelen;
+                int index = -1;
+                int size = 0;
+				while(rs.next()) {
+                    index++;
+                    if(paggig) {
+                        if(index < startindex) continue;
+                        if(index >= endindex) break;
+                    }
+
+                    size++;
+                    Row row = Row.instance(index);
+
+                    for(int i = 0; i < columnCount; i++) {
+                        String value = null;
+                        int type = md.getColumnType(i+1);
+                        if(type == Types.TIMESTAMP) {
+                            value = formatDate(datetimeFormatter(), rs.getTimestamp(i+1));
+                        } else if(type == Types.DATE) {
+                            value = formatDate(dateFormatter(), rs.getDate(i+1));
+                        } else {
+                            value = rs.getString(i+1);
+                        }
+
+                        row.add(value);
+                    }
+                    rowStart(row);
+                    sb.append("  <td></td>");
+                    sb.append("  <td>-------------------------------------</td>");
+                    rowEnd();
+
+                    for(Column col : columns) {
+                        rowStart(row);
+                        coll(col, null, col.header());
+                        coll(col, row, col.value(row));
+                        rowEnd();
+                    }
+				}
+                sb.append("</table>\n");
+                table.size = size;
+                table.html = sb.toString();
+				return table;
+			} catch(Exception e) {
+                table.error = e.toString();
+			} finally {
+				try {
+					if(rs != null) rs.close();
+					if(stmt != null) stmt.close();
+				} catch(SQLException e) { }
+			}
+		} else {
+            table.error = "no select present";
+        }
+        return table;
+    }
+
     private String clearSql(String sql) {
         StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(sql, "\n\r");
